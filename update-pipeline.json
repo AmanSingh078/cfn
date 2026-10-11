@@ -1,0 +1,75 @@
+{
+  "pipeline": {
+    "name": "vit",
+    "roleArn": "arn:aws:iam::120569634760:role/service-role/AWSCodePipelineServiceRole-ap-south-1-vit",
+    "artifactStore": {
+      "type": "S3",
+      "location": "codepipeline-ap-south-1-861412c233d5-43c0-84f7-80e5a90af4f6"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "Source",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "AWS",
+              "provider": "S3",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "PollForSourceChanges": "false",
+              "S3Bucket": "cfn-pipeline-artifacts-120569634760",
+              "S3ObjectKey": "website.zip"
+            },
+            "outputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ],
+            "inputArtifacts": [],
+            "region": "ap-south-1",
+            "namespace": "SourceVariables"
+          }
+        ],
+        "onFailure": {
+          "result": "RETRY",
+          "retryConfiguration": {
+            "retryMode": "ALL_ACTIONS"
+          }
+        }
+      },
+      {
+        "name": "ProductionDeploy",
+        "actions": [
+          {
+            "name": "DeployWebsite",
+            "actionTypeId": {
+              "category": "Deploy",
+              "owner": "AWS",
+              "provider": "S3",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "BucketName": "cfn-production-testbucket-rb71eblbxuyj",
+              "Extract": "true"
+            },
+            "inputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ],
+            "outputArtifacts": [],
+            "region": "ap-south-1"
+          }
+        ]
+      }
+    ],
+    "version": 1,
+    "executionMode": "QUEUED",
+    "pipelineType": "V2"
+  }
+}

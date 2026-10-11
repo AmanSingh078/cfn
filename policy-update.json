@@ -1,0 +1,81 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowS3BucketAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketVersioning",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-south-1-861412c233d5-43c0-84f7-80e5a90af4f6"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": "120569634760"
+        }
+      }
+    },
+    {
+      "Sid": "AllowS3ObjectAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:GetObject",
+        "s3:GetObjectVersion"
+      ],
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-south-1-861412c233d5-43c0-84f7-80e5a90af4f6/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": "120569634760"
+        }
+      }
+    },
+    {
+      "Sid": "ReadWebsitePipelineSource",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::cfn-pipeline-artifacts-120569634760/*"
+    },
+    {
+      "Sid": "InspectWebsitePipelineSourceBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketVersioning",
+        "s3:GetBucketLocation",
+        "s3:GetBucketAcl"
+      ],
+      "Resource": "arn:aws:s3:::cfn-pipeline-artifacts-120569634760"
+    },
+    {
+      "Sid": "DeployWebsiteFiles",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::cfn-production-testbucket-rb71eblbxuyj/*"
+    },
+    {
+      "Sid": "InspectProductionWebsiteBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:GetBucketAcl"
+      ],
+      "Resource": "arn:aws:s3:::cfn-production-testbucket-rb71eblbxuyj"
+    }
+  ]
+}
